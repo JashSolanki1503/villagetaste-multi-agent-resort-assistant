@@ -55,7 +55,7 @@ The system utilizes a main controller to classify guest intent and coordinate ac
 
 The Guide Agent answers resort-related questions through a localized Retrieval-Augmented Generation (RAG) pipeline. Resort knowledge is stored as structured markdown documents, converted into vector embeddings using BAAI/bge-base-en-v1.5, indexed in ChromaDB, and retrieved during guest interactions. Retrieved context is then supplied to the Guide Agent to generate grounded and source-aware responses.
 
-![VillageTaste Architecture](assests/guide_agent_rag_pipline_architecture.jpeg)
+![RAG Pipline](assests/guide_agent_rag_pipline_architecture.jpeg)
 
 1.  **knowledge_base/**: Contains markdown documents describing activities, food menus, FAQs, resort rules, and history.
 2.  **ingest.py**: Crawls the directory, splits text via `RecursiveCharacterTextSplitter` (`chunk_size=500`, `chunk_overlap=50`), and indexes document sources as metadata.
@@ -68,7 +68,7 @@ The Guide Agent answers resort-related questions through a localized Retrieval-A
 
 ## 4. MCP Integration
 
-![VillageTaste Architecture](assests\mcp_concepts.jpeg)
+![MCP Integration](assests\mcp_concepts.jpeg)
 
 Model Context Protocol (MCP) integrations are simulated locally within the `mcp/` package to support fully offline development and eliminate external API rate limiting, credentials, or latency during prototyping:
 
