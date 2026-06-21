@@ -21,30 +21,27 @@ A multi-agent design solves these issues through **separation of concerns** and 
 3.  **Efficiency**: Heavy LLM calls are limited only to cognitive tasks (like natural language synthesis), while deterministic routing and database interactions run locally and efficiently.
 4.  **Resilience**: The system supports a dual-mode workflow (Grounded/Online via Gemini vs. Simulation/Offline via local algorithms) so the front desk remains operational even during network outages.
 
+## Capstone Concepts Demonstrated
+
+This project applies multiple concepts from Google's AI Agents: Intensive Vibe Coding Course and demonstrates how modern AI agent systems can support hospitality operations through specialized agent collaboration.
+
+| Course Concept | Implementation |
+|----------------|---------------|
+| Multi-Agent System (ADK) | Orchestrator Agent, Booking Agent, Reception Agent, and Guide Agent |
+| MCP (Model Context Protocol) | Local Google Calendar MCP and Gmail MCP integrations |
+| RAG (Retrieval-Augmented Generation) | ChromaDB + BGE Embeddings + Local Knowledge Base |
+| Agent Skills | Booking Validator, Complaint Classifier, FAQ Router, Booking Summary Generator |
+| Security Features | Input validation, scope guards, restricted routing, controlled state updates |
+| Shared State | Persistent guest records and reservation management |
+| Antigravity | Project structure and agent workflows generated and refined using Antigravity |
+
 ---
 
 ## 2. Architecture Overview
 
 The system utilizes a main controller to classify guest intent and coordinate actions across four specialized agents:
 
-```text
-                        Guest Query
-                             │
-                             ▼
-                    Orchestrator Agent
-                             │
-            ┌────────────────┼────────────────┬──────────────┐
-            │                │                │              │
-            ▼                ▼                ▼              ▼
-         BOOKING         RECEPTION          GUIDE       OUT_OF_SCOPE
-            │                │                │              │
-            ▼                ▼                ▼              ▼
-      Booking Agent   Reception Agent    Guide Agent    Guide Agent
-     (Validate Skill  (Categorize: check  (Retrieve     Scope Guard
-      -> Calendar      -in/out, repair,    chunks ->    Rejection
-      MCP -> Gmail     room service ->     Gemini ->
-      Confirmation)    Folio via Gmail)   Attribution)
-```
+![VillageTaste Architecture](assests/agent_system_arcitecture.jpeg)
 
 ### Agent Responsibilities
 *   **Orchestrator Agent ([orchestrator.py](file:///d:/Google_Agent_Course/village-taste-agent/agents/orchestrator.py))**: Evaluates raw guest inputs and routes queries to `BOOKING`, `RECEPTION`, `GUIDE`, or `OUT_OF_SCOPE` using Gemini or local semantic keyword triggers.
@@ -56,18 +53,9 @@ The system utilizes a main controller to classify guest intent and coordinate ac
 
 ## 3. RAG Pipeline
 
-The Guide Agent answers resort inquiries using a localized Retrieval-Augmented Generation (RAG) system:
+The Guide Agent answers resort-related questions through a localized Retrieval-Augmented Generation (RAG) pipeline. Resort knowledge is stored as structured markdown documents, converted into vector embeddings using BAAI/bge-base-en-v1.5, indexed in ChromaDB, and retrieved during guest interactions. Retrieved context is then supplied to the Guide Agent to generate grounded and source-aware responses.
 
-```text
-  ┌────────────────┐      ┌──────────────┐      ┌─────────────┐
-  │ knowledge_base │ ───> │  ingest.py   │ ───> │ Embeddings  │
-  └────────────────┘      └──────────────┘      └─────────────┘
-                                                       │
-                                                       ▼
-  ┌──────────────┐      ┌──────────────┐      ┌─────────────┐
-  │ Guide Agent  │ <───  │ retriever.py │ <───  │  ChromaDB   │
-  └──────────────┘      └──────────────┘      └─────────────┘
-```
+![VillageTaste Architecture](assests/guide_agent_rag_pipline_architecture.jpeg)
 
 1.  **knowledge_base/**: Contains markdown documents describing activities, food menus, FAQs, resort rules, and history.
 2.  **ingest.py**: Crawls the directory, splits text via `RecursiveCharacterTextSplitter` (`chunk_size=500`, `chunk_overlap=50`), and indexes document sources as metadata.
@@ -96,7 +84,27 @@ Model Context Protocol (MCP) integrations are simulated locally within the `mcp/
 
 ---
 
-## 5. Agent Skills
+## 5. Security Features
+
+Security and reliability were important design considerations throughout the project.
+
+Implemented safeguards include:
+
+- Booking validation before reservation creation
+- Date format verification and logical date checks
+- Guest count validation
+- Restricted room type validation
+- Guide Agent scope guard for out-of-domain requests
+- Controlled state modifications through dedicated modules
+- No API keys stored inside source code
+- Local MCP simulation to avoid exposing external credentials during development
+- Explicit routing through the Orchestrator Agent to prevent unauthorized agent actions
+
+These controls help ensure safer interactions while maintaining consistent agent behavior.
+
+---
+
+## 6. Agent Skills
 
 The system implements modular, reusable Agent Skills located under the `skills/` directory. By isolating business logic, verification routines, and specialized classification tasks into independent, standalone components, Skills significantly improve:
 *   **Modularity**: Skills are detached from agent runtimes, allowing them to be imported, updated, and reused across multiple agents or workflow nodes.
@@ -132,7 +140,7 @@ The system implements modular, reusable Agent Skills located under the `skills/`
 
 ---
 
-## 6. Shared State
+## 7. Shared State
 
 The prototype coordinates multi-turn guest interactions by introducing a persistent data access layer in `shared_state/`:
 
@@ -147,7 +155,7 @@ The prototype coordinates multi-turn guest interactions by introducing a persist
 
 ---
 
-## 7. Folder Structure
+## 8. Folder Structure
 
 ```text
 village-taste-agent/
@@ -169,7 +177,7 @@ village-taste-agent/
 
 ---
 
-## 8. Installation Instructions
+## 9. Installation Instructions
 
 ### Prerequisites
 *   Python 3.10 or higher.
@@ -199,7 +207,7 @@ village-taste-agent/
 
 ---
 
-## 9. Running Tests
+## 10. Running Tests
 
 The test suite validates agent validators, RAG retrieval thresholds, mock MCP state changes, and end-to-end multi-agent guest workflows:
 
@@ -225,7 +233,30 @@ python -m unittest tests/test_end_to_end_workflow.py
 
 ---
 
-## 10. Example Workflows
+## 11. User Interface
+
+The project includes a Streamlit-based conversational interface that allows guests to interact naturally with the multi-agent system.
+
+Features include:
+
+- Real-time conversational interaction
+- Agent routing transparency
+- Booking assistance
+- Reception support
+- RAG-powered resort guidance
+- Session-based conversation handling
+
+### Interface Preview
+
+![Chat Interface](assests\ui_image.png)
+
+### Agent Workflow
+
+![Workflow](assests\workflow.jpeg)
+
+---
+
+## 12. Example Workflows
 
 ### A. Booking Flow
 1.  **Guest Request**: `"I'd like to book a Deluxe Villa for 3 nights under Jane Doe at jane.doe@example.com."`
@@ -255,11 +286,11 @@ python -m unittest tests/test_end_to_end_workflow.py
 
 ---
 
-## 11. Future Improvements
+## 13. Future Improvements
 
-To transform this local prototype into a production-ready application, the following milestones are recommended:
-
-*   **Production MCP Integrations**: Replace mock files with live Google Calendar and Gmail API integration (requiring OAuth 2.0 flow and GCP credentials).
-*   **Web Portal**: Build a clean responsive React/Next.js frontend so guests can interact with the assistant visually.
-*   **Dynamic Inventory Synchronization**: Deploy a production-grade database (e.g. PostgreSQL or MongoDB) with row locks to manage reservations in high-concurrency environments.
-*   **Proactive Notification Schedules**: Implement cron-based reminders to automatically email guests check-in instructions 24 hours prior to check-in, or wellness session reminders.
+- Live MCP integrations using Google Calendar API and Gmail API
+- Multi-language guest support
+- Voice-enabled concierge interactions
+- Mobile application support
+- Real-time room inventory synchronization
+- Analytics dashboard for resort administrators
