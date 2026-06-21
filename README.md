@@ -68,6 +68,8 @@ The Guide Agent answers resort-related questions through a localized Retrieval-A
 
 ## 4. MCP Integration
 
+![VillageTaste Architecture](assests\mcp_concepts.jpeg)
+
 Model Context Protocol (MCP) integrations are simulated locally within the `mcp/` package to support fully offline development and eliminate external API rate limiting, credentials, or latency during prototyping:
 
 ### Google Calendar MCP (`mcp/calendar_mcp.py`)
