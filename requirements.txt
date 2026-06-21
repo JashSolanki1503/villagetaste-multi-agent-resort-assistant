@@ -1,0 +1,40 @@
+# requirements.txt
+# VillageTaste Resort Agent System — Dependency Manifest
+#
+# Install all dependencies with:
+#   pip install -r requirements.txt
+#
+# PHASES:
+#   Phase 1 — Local prototype & RAG (no Gemini API calls)
+#   Phase 2 — Live ADK + Gemini (add google-adk when ready)
+
+# ── Phase 1: RAG Pipeline (local, offline) ────────────────────────────────────
+# Core LangChain framework
+langchain>=0.2.0
+
+# Text splitting utilities (broken out as a separate package in LangChain 0.2+)
+langchain-text-splitters>=0.2.0
+
+# HuggingFace embeddings integration for LangChain
+langchain-huggingface>=0.0.3
+
+# ChromaDB vector store integration for LangChain
+langchain-chroma>=0.1.0
+
+# Sentence-transformers: runs BAAI/bge-base-en-v1.5 locally on CPU
+sentence-transformers>=2.7.0
+
+# ChromaDB: local persistent vector database
+chromadb>=0.5.0
+
+# python-dotenv: loads .env variables for API keys
+python-dotenv>=1.0.0
+
+# ── Streamlit Dashboard ──────────────────────────────────────────────────────
+# Streamlit: interactive web UI for the resort assistant
+streamlit>=1.36.0
+
+# ── Phase 2: ADK + Live Gemini (uncomment when ready) ────────────────────────
+# google-adk>=2.0.0
+# google-genai>=0.1.0
+

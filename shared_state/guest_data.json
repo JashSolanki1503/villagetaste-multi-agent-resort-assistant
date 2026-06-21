@@ -1,0 +1,92 @@
+{
+  "guests": {
+    "bob@example.com": {
+      "email": "bob@example.com",
+      "profile": {
+        "guest_name": "Bob Smith"
+      },
+      "reservations": [
+        "evt_cal_luxury_suite_1"
+      ],
+      "complaints": [],
+      "service_requests": [],
+      "checkin_status": "Not Checked In"
+    },
+    "dave@example.com": {
+      "email": "dave@example.com",
+      "profile": {
+        "guest_name": "Dave Grohl"
+      },
+      "reservations": [
+        "evt_cal_deluxe_villa_2"
+      ],
+      "complaints": [],
+      "service_requests": [],
+      "checkin_status": "Not Checked In"
+    },
+    "guest@example.com": {
+      "email": "guest@example.com",
+      "profile": {
+        "guest_name": "Valued Guest"
+      },
+      "reservations": [],
+      "complaints": [
+        {
+          "complaint": "The AC is not working in my room. My email is guest@example.com",
+          "category": "MAINTENANCE",
+          "status": "Logged"
+        },
+        {
+          "complaint": "My room is extremely dirty. Email: guest@example.com",
+          "category": "HOUSEKEEPING",
+          "status": "Logged"
+        },
+        {
+          "complaint": "I noticed a wrong charge on my invoice today. Email: guest@example.com",
+          "category": "BILLING",
+          "status": "Logged"
+        }
+      ],
+      "service_requests": [],
+      "checkin_status": "Not Checked In"
+    },
+    "valued_guest@example.com": {
+      "email": "valued_guest@example.com",
+      "profile": {
+        "guest_name": "Valued Guest"
+      },
+      "reservations": [
+        "evt_cal_deluxe_villa_3"
+      ],
+      "complaints": [],
+      "service_requests": [],
+      "checkin_status": "Not Checked In"
+    }
+  },
+  "reservations": {
+    "evt_cal_luxury_suite_1": {
+      "guest_name": "Bob Smith",
+      "room_type": "Luxury Suite",
+      "checkin": "2026-08-10",
+      "checkout": "2026-08-15",
+      "guests": 3,
+      "calendar_event_id": "evt_cal_luxury_suite_1"
+    },
+    "evt_cal_deluxe_villa_2": {
+      "guest_name": "Dave Grohl",
+      "room_type": "Deluxe Villa",
+      "checkin": "2026-07-15",
+      "checkout": "2026-07-20",
+      "guests": 2,
+      "calendar_event_id": "evt_cal_deluxe_villa_2"
+    },
+    "evt_cal_deluxe_villa_3": {
+      "guest_name": "Valued Guest",
+      "room_type": "Deluxe Villa",
+      "checkin": "2026-07-01",
+      "checkout": "2026-07-07",
+      "guests": 2,
+      "calendar_event_id": "evt_cal_deluxe_villa_3"
+    }
+  }
+}
