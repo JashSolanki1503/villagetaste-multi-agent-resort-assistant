@@ -252,10 +252,6 @@ Features include:
 
 ![Chat Interface](assests/ui_image.png)
 
-### Agent Workflow
-
-![Workflow](assests/workflow.jpeg)
-
 ---
 
 ## 12. Example Workflows
@@ -285,6 +281,10 @@ Features include:
 4.  **RAG Semantic Search**: Retriever extracts pottery workshop schedules and pricing details from `activities/activities.md` ($L2 \le 0.85$).
 5.  **Grounded Response**: Guide Agent synthesizes answers using the retrieved source facts.
 6.  **Citations**: Returns the answer alongside source attribution footnotes: `(Source: activities/activities.md)`.
+
+### Agent Workflow
+
+![Workflow](assests/workflow.jpeg)
 
 ---
 
