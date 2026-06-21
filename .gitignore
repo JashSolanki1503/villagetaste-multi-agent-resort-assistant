@@ -20,6 +20,7 @@ ENV/
 # ── RAG vector store (rebuilt by running rag/ingest.py) ─────────────────────
 vector_store/
 !vector_store/.gitkeep
+assets
 
 # ── HuggingFace model cache (large binary weights downloaded automatically) ───
 .cache/
